@@ -1,0 +1,17 @@
+.title-status{
+    margin: 80px auto;
+    width: 900px;
+}
+
+
+@media (max-width: 700px) {
+    #table-container{
+        display: none;
+    }
+    .table-container-mobile{
+      display: inline-block;
+    }
+    .tableBody{
+        font-size: 12px;
+    }
+ }

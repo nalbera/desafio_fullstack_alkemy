@@ -1,0 +1,60 @@
+.navBar{
+    background-color: #1b3039;
+    color: #e2f1f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 85px;
+    width: 100%;
+    padding: 5px 10%;
+}
+
+.navBar .logo img{
+    height: 70px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.navBar .user img{
+    height: 50px;
+    width: auto;
+    border-radius: 50%;
+}
+.navBar .nav-link {
+    list-style: none;
+}
+
+.navBar .nav-link li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.navBar .nav-link .link{
+    font-size: 16px;
+    color: #eceff1;
+    text-decoration: none;
+}
+
+.navBar .nav-link select{
+    background-color: #1b3039;
+    color: #eceff1;
+    font-size: 16px;
+    border: 0px;
+    outline: 0px;
+}
+.menu-hamburguesa{
+    display: none;
+}
+.menu-hamburguesa img{
+    width: 50px;
+    height: 50px;
+}
+
+@media (max-width: 700px) {
+    .navBar nav{
+        display: none;
+    }
+    .menu-hamburguesa{
+        display: inline-block;
+    }
+}

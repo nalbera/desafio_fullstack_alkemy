@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+/*
+Estilos para toda la app
+*/
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+}
+body {
+  background-color: #fff59d;
+}
+
+/*
+Estilos para las tablas
+*/
+#table-container{
+  margin: 80px auto;
+  width: 900px;
+}
+
+table{
+  text-align: left;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td{
+  padding: 6px;
+}
+
+thead{
+  background-color: #1b3039;
+  color: #e2f1f8;
+}
+
+/*
+Estilos para los formularios de alta y modificación
+*/
+.btn{
+  border-radius: 3px;
+  display: inline-block;
+  padding: 10px 10px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #e2f1f8;
+  box-shadow: 0 1px 1px #1b3039;
+  width: 280px;
+  margin-top: 10px;
+}
+
+.btn-color{
+  color: white;
+  background-color: #1b3039;
+}
+
+
+form{
+  background-color: white;
+  border-radius: 3px;
+  color: gray;
+  font-size: 14px;
+  margin: 5rem auto;
+  padding: 20px;
+  width: 317px;
+}
+form input,select{
+  border: 0px;
+  outline: none;
+}
+
+form ul{
+  text-decoration: none;
+}
+
+#field{
+  border: solid 1px gainsboro;
+  padding: 3px;
+  width: 280px;
+}
+
+#field:focus{
+  border-color: #1b3039;
+}

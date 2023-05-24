@@ -9,9 +9,8 @@ export const LastTen = () => {
         fetch('http://localhost:3001/last-ten')
             .then(response => response.json())
             .then(data => setState(data.data));
-    },[state.data]);
-
-
+    },[setState, state.data]);
+    
     return ( 
         <>
             <div id='table-container'>

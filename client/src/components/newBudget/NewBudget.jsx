@@ -29,7 +29,7 @@ export const NewBudget = () => {
         menu.style.display = 'none';
     }, []);
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
         if(!input.date || !input.description || !input.amount || !input.type){
             return swal.fire({
@@ -38,8 +38,13 @@ export const NewBudget = () => {
                 position: 'top-start'
               });
         };
-        postNewBudget(input);
-        history('/');
+        const rta = await postNewBudget(input);
+        if(rta.length > 0){
+             const elem = document.querySelector('.msgError')
+             elem.innerHTML = `<p>${rta[0].msg}</p>`
+        }else{
+            history('/');
+        }
     }
 
     return ( 
@@ -47,18 +52,20 @@ export const NewBudget = () => {
             <NavBar />
             <form onSubmit={handleSubmit}>
                 <p>New Budget</p>
-                <p htmlFor="">Date:</p>
-                <input type="text" name="date" id="field" onChange={(e) => handleChange(e)} />
-                <p htmlFor="">Description:</p>
+                <p htmlFor="">Date*:</p>
+                <input type="text" name="date" id="field" onChange={(e) => handleChange(e)} placeholder='AAAA/MM/DD'/>
+                <div className='msgError'></div>
+                <p htmlFor="">Description*:</p>
                 <input type="text" name="description" id="field" onChange={(e) => handleChange(e)}/>
-                <p htmlFor="">Amount:</p>
+                <p htmlFor="">Amount*:</p>
                 <input type="text" name="amount" id="field" onChange={(e) => handleChange(e)}/>
-                <p htmlFor="">Operation Type:</p>
+                <p htmlFor="">Operation Type*:</p>
                 <select name="type" id="field" onChange={(e) => handleChange(e)}>
                     <option></option>
                     <option value="1">Income</option>
                     <option value="2">Bills</option>
                 </select>
+                <p>(*)The data is required</p>
                 <p>
                     <button className='btn btn-color' type='submit'>Submit</button>
                 </p>

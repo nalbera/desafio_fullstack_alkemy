@@ -1,4 +1,6 @@
 const { Budget, Type } = require('../database/config/db');
+const {validationResult} = require('express-validator');
+
 const {setBudget, getAllInfo, modifyBudget, getByStatus,destroy} = require('../database/service');
 
 const newBudget = async (req,res) => {
@@ -11,6 +13,12 @@ const newBudget = async (req,res) => {
     } = req.body;
     
     try {
+        const errors = validationResult(req);
+        
+        if(!errors.isEmpty()){
+            return res.json({errors: errors.array()});
+        }
+
         let newBudget = await setBudget(date,description,amount,type);
         res.status(200).send(newBudget);
     } catch (error) {

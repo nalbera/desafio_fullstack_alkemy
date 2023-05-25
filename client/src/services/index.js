@@ -17,6 +17,10 @@ export const postNewBudget = async ({date, description, amount, type}) => {
         body: JSON.stringify(data)
     });
     const json = await response.json();
+    
+    if(json.errors.length){
+        return json.errors;
+    }
     return json;
 };
 

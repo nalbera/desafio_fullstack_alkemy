@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const validator = require('../middleware/validator');
+
 const {
     newBudget,
     currentBalance,
@@ -15,7 +17,7 @@ const router = Router();
 router.get('/current-balance', currentBalance);
 router.get('/last-ten', last10);
 router.get('/list-status', listOff);
-router.post('/budget',newBudget);
+router.post('/budget',validator(),newBudget);
 router.patch('/budget/:id', modify);
 router.delete('/budget/:id',deleteBudget);
 

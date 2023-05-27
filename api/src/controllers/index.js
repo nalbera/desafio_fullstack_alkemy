@@ -16,7 +16,7 @@ const newBudget = async (req,res) => {
         const errors = validationResult(req);
         
         if(!errors.isEmpty()){
-            return res.status(401).json({
+            return res.status(400).json({
                 status: 'ERROR',
                 errors: errors.array()
             });

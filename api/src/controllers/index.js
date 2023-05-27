@@ -11,16 +11,23 @@ const newBudget = async (req,res) => {
         amount,
         type
     } = req.body;
-    
+
     try {
         const errors = validationResult(req);
         
         if(!errors.isEmpty()){
-            return res.json({errors: errors.array()});
+            return res.status(401).json({
+                status: 'ERROR',
+                errors: errors.array()
+            });
         }
-
+        
         let newBudget = await setBudget(date,description,amount,type);
-        res.status(200).send(newBudget);
+        
+        res.status(200).send({
+             status: 'OK',
+             data: newBudget
+        });
     } catch (error) {
         res.status(400);
         console.log(error);

@@ -39,9 +39,10 @@ export const NewBudget = () => {
               });
         };
         const rta = await postNewBudget(input);
-        if(rta.length > 0){
+        
+        if(rta.status === 'ERROR'){
              const elem = document.querySelector('.msgError')
-             elem.innerHTML = `<p>${rta[0].msg}</p>`
+             elem.innerHTML = `<p>${rta.errors[0].msg}</p>`
         }else{
             history('/');
         }
@@ -53,7 +54,7 @@ export const NewBudget = () => {
             <form onSubmit={handleSubmit}>
                 <p>New Budget</p>
                 <p htmlFor="">Date*:</p>
-                <input type="text" name="date" id="field" onChange={(e) => handleChange(e)} placeholder='AAAA/MM/DD'/>
+                <input type="text" name="date" id="field" onChange={(e) => handleChange(e)} placeholder='AAAA-MM-DD'/>
                 <div className='msgError'></div>
                 <p htmlFor="">Description*:</p>
                 <input type="text" name="description" id="field" onChange={(e) => handleChange(e)}/>

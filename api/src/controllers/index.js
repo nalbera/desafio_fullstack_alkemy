@@ -1,7 +1,15 @@
 const { Budget, Type } = require('../database/config/db');
 const {validationResult} = require('express-validator');
 
-const {setBudget, getAllInfo, modifyBudget, getByStatus,destroy} = require('../database/service');
+const {
+    setBudget,
+    getAllInfo,
+    modifyBudget,
+    getByStatus,
+    destroy,
+    newUser,
+    login
+} = require('../database/service');
 
 const newBudget = async (req,res) => {
     
@@ -112,6 +120,45 @@ const allRegister = async (req,res) => {
     res.json({cant: registers.length, data: registers});
 }
 
+const userRegister = async (req,res) => {
+    const { userName, password } = req.body;
+    try {
+        
+        let user = await newUser(userName,password);
+        
+        if(user===1) return res.status(409).send('There is already a user with this user name');
+
+        res.status(200).send({
+             status: 'OK',
+             data: user
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const loginUser = async (req,res) => {
+    const {userName,password} = req.body;
+    try {
+        const resLog = await login(userName,password);
+
+        if(resLog === 0 || resLog === -1) return res.status(401).send({
+            status: 'ERROR',
+            message: 'Icorrect user name or password',
+        })
+
+        res.status(200).send({
+            status: 'OK',
+            message: 'Login: User successfully logged in.',
+            data:{
+                token: resLog
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     newBudget,
     currentBalance,
@@ -119,5 +166,7 @@ module.exports = {
     modify,
     listOff,
     deleteBudget,
-    allRegister
+    allRegister,
+    userRegister,
+    loginUser
 }

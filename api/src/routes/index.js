@@ -8,7 +8,9 @@ const {
     modify,
     listOff,
     deleteBudget,
-    allRegister
+    allRegister,
+    userRegister,
+    loginUser
 } = require('../controllers');
 
 const router = Router();
@@ -22,6 +24,10 @@ router.patch('/budget/:id', modify);
 router.delete('/budget/:id',deleteBudget);
 
 router.get('/all',allRegister);
+
+router.post('/user/register',userRegister);
+router.post('/user/login', loginUser);
+
 router.get('/', (req,res) => {
     res.send("<h3>I'm here </h3>");
 });

@@ -1,4 +1,6 @@
-const { Budget, Type } = require('../config/db');
+const { Budget, Type, User } = require('../config/db');
+const bycrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const setBudget = async (date, description, amount, typeId) => {
     
@@ -63,10 +65,48 @@ const destroy = async (id) => {
     return;
 }
 
+const newUser = async (userName, password) => {
+    
+    const findUser = await User.findOne({where:{userName}});
+
+    if(findUser) return 1;
+
+    const passEncript = bycrypt.hashSync(password,10);
+
+    const user = await User.create({
+        userName,
+        password: passEncript,
+    });
+
+    return user;
+}
+
+const login = async (userName,password) => {
+    
+    const user = await User.findOne({where:{userName}});
+
+    if(!user) return 0;
+        
+    const check = bycrypt.compareSync(password,user.password);
+
+    if(check===false) return -1;
+
+    const jwtInfo = {
+        id: user.id,
+        userName: user.userName
+    }
+
+    const token = jwt.sign(jwtInfo, process.env.SECRET, {expiresIn: '1d'});
+
+    return token;
+}
+
 module.exports = {
     setBudget,
     getAllInfo,
     modifyBudget,
     getByStatus,
     destroy,
+    newUser,
+    login
 };

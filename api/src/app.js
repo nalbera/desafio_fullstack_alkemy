@@ -1,7 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const routes = require('./routes/index')
+const path = require('path');
+const fileUpload = require('express-fileupload');
+const createDir = require('../src/services/createDir');
+
+const routes = require('./routes/index');
 const server = express();
 
 
@@ -9,6 +13,13 @@ server.use(cors());
 server.use(express.urlencoded({extended: false}));
 server.use(express.json());
 server.use(morgan('dev'));
+server.use(fileUpload());
+
+const staticDir = path.join(__dirname, 'upload');
+
+server.use(express.static(staticDir));
+
+createDir(staticDir);
 
 server.use('/', routes)
 

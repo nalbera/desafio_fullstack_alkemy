@@ -106,6 +106,48 @@ const login = async (userName,password) => {
     return token;
 }
 
+const modifyDataUser = async (id,firstName,lastName) => {
+   
+    const modifyUser = await User.update({
+        firstName,
+        lastName
+    },
+    {
+        where: { id }
+    }
+    )
+    return modifyUser;
+}
+
+const setUserAvatar = async (id, userAvatar) => {
+    await User.update(
+        {
+            avatar: userAvatar
+        },
+        {
+            where: { id }
+        }
+    )
+
+    return;
+}
+
+const getInfoUser = async (id) => {
+    const info = await User.findByPk(id);
+    
+    if(!info) return null;
+
+    const data = {
+        id: info.id,
+        firstName: info.firstName,
+        lastName: info.lastName,
+        userName: info.userName,
+        avatar: info.avatar
+    }
+
+    return data;
+}
+
 module.exports = {
     setBudget,
     getAllInfo,
@@ -113,5 +155,8 @@ module.exports = {
     getByStatus,
     destroy,
     newUser,
-    login
+    login,
+    modifyDataUser,
+    setUserAvatar,
+    getInfoUser
 };

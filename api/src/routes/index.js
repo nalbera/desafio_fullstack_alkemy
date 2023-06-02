@@ -11,7 +11,9 @@ const {
     deleteBudget,
     allRegister,
     userRegister,
-    loginUser
+    loginUser,
+    modifyUser,
+    infoUser
 } = require('../controllers');
 
 const router = Router();
@@ -30,6 +32,8 @@ router.delete('/budget/:id',deleteBudget);
 
 router.get('/all',allRegister);
 
+router.patch('/user/modify/:id', modifyUser)
+router.get('/user/:id', infoUser);
 
 router.get('/', (req,res) => {
     res.send("<h3>I'm here </h3>");

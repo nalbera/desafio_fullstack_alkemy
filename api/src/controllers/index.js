@@ -1,5 +1,6 @@
 const { Budget, Type } = require('../database/config/db');
 const {validationResult} = require('express-validator');
+const loadPhoto = require('../services/loadPhoto');
 
 const {
     setBudget,
@@ -8,7 +9,10 @@ const {
     getByStatus,
     destroy,
     newUser,
-    login
+    login,
+    modifyDataUser,
+    setUserAvatar,
+    getInfoUser
 } = require('../database/service');
 
 const newBudget = async (req,res) => {
@@ -79,7 +83,7 @@ const modify = async (req, res) => {
         const budget = await modifyBudget(id, date, description, amount)
         res.status(200).json({budget, message: 'The registration was correctly modified.'});
     } catch (error) {
-        res.status(400);
+        res.status(500);
         console.log(error);
     }
 };
@@ -161,6 +165,53 @@ const loginUser = async (req,res) => {
     }
 }
 
+const modifyUser = async (req,res) => {
+    const { id } = req.params;
+    const {firstName, lastName } = req.body;
+    try {
+
+        if(req.files && req.files.avatar){
+
+            const userAvatar = await loadPhoto(req.files.avatar);
+
+            await setUserAvatar(id, userAvatar);
+
+            res.status(200).json({status: 'OK', message: 'The avatar was successfully modified.'});    
+        }
+
+        if(firstName.length > 0 || lastName.length > 0){
+            const modifiedUser = await modifyDataUser(id,firstName,lastName);
+    
+            res.status(200).json({modifiedUser, message: 'The user was successfully modified.'});
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const infoUser = async (req,res) => {
+    const { id } = req.params;
+
+    try {
+        
+        const user = await getInfoUser(id);
+
+        if(!user) return res.status(401).json({
+            status: 'ERROR',
+            message: 'User not found'
+        });
+
+        res.status(200).json({
+            status: 'OK',
+            data: user
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     newBudget,
     currentBalance,
@@ -170,5 +221,7 @@ module.exports = {
     deleteBudget,
     allRegister,
     userRegister,
-    loginUser
+    loginUser,
+    modifyUser,
+    infoUser
 }

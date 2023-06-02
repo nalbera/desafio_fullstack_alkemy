@@ -30,7 +30,7 @@ const newBudget = async (req,res) => {
             });
         }
         
-        let newBudget = await setBudget(date,description,amount,type);
+        let newBudget = await setBudget(date,description,amount,type,req.userInfo.id);
         
         res.status(200).send({
              status: 'OK',
@@ -42,9 +42,9 @@ const newBudget = async (req,res) => {
     }
 };
 
-const currentBalance = async (_req, res) => {
+const currentBalance = async (req, res) => {
     try {
-        const budgets = await getAllInfo();
+        const budgets = await getAllInfo(req.userInfo.id);
         const income = budgets.filter((elem)=>elem.type==1).reduce((ac,cv) => parseFloat(ac)+parseFloat(cv.amount),0);
         const bills = budgets.filter((elem)=>elem.type==2).reduce((a,v) => parseFloat(a)+parseFloat(v.amount),0);
         res.status(200).json({total: (income - bills)})
@@ -56,7 +56,7 @@ const currentBalance = async (_req, res) => {
 
 const last10 = async (req,res) => {
     try {
-        const budgets = await getAllInfo();
+        const budgets = await getAllInfo(req.userInfo.id);
         if(budgets.length > 10){
             const last = budgets.slice(budgets.length - 10);
             return res.status(200).json({cant: budgets.length ,data: last});
@@ -86,10 +86,13 @@ const modify = async (req, res) => {
 
 const listOff = async (req, res) => {
     const { status } = req.query;
-    //res.send(status);
+
     try {
-        const budgets = await getByStatus(parseInt(status));
-        const info = budgets[0].budgets.map((elem) => {
+        const budgets = await getByStatus(parseInt(status), req.userInfo.id);
+        
+        if(!budgets) return  res.status(400).json({Message: 'Not Found'});
+
+        const info = budgets.map((elem) => {
             return{
                 id: elem.id,
                 date: elem.date,
@@ -99,7 +102,6 @@ const listOff = async (req, res) => {
         });
         res.status(200).json(info);
     } catch (error) {
-        res.status(400).json({Message: 'Not Found'});
         console.log(error);
     }
 };
@@ -116,8 +118,8 @@ const deleteBudget = async (req, res) => {
 };
 
 const allRegister = async (req,res) => {
-    const registers = await getAllInfo();
-    res.json({cant: registers.length, data: registers});
+    const registers = await getAllInfo(req.userInfo.id);
+    res.json({user: req.userInfo.id, cant: registers.length, data: registers});
 }
 
 const userRegister = async (req,res) => {

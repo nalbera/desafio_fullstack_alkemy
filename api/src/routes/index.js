@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const validator = require('../middleware/validator');
+const isUser = require('../middleware/isUser');
 
 const {
     newBudget,
@@ -15,7 +16,11 @@ const {
 
 const router = Router();
 
+router.post('/user/register',userRegister);
+router.post('/user/login', loginUser);
 
+
+router.use(isUser);
 router.get('/current-balance', currentBalance);
 router.get('/last-ten', last10);
 router.get('/list-status', listOff);
@@ -25,8 +30,6 @@ router.delete('/budget/:id',deleteBudget);
 
 router.get('/all',allRegister);
 
-router.post('/user/register',userRegister);
-router.post('/user/login', loginUser);
 
 router.get('/', (req,res) => {
     res.send("<h3>I'm here </h3>");

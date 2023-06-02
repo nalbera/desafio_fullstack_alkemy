@@ -1,19 +1,23 @@
 const { Budget, Type, User } = require('../config/db');
 const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const {Op} = require('sequelize');
 
-const setBudget = async (date, description, amount, typeId) => {
+const setBudget = async (date, description, amount, typeId, userId) => {
     
-    const newBudget = await Budget.create({date, description, amount, typeId});
+    const newBudget = await Budget.create({date, description, amount, typeId, userId});
         
     return newBudget;
 };
 
-const getAllInfo = async () => {
+const getAllInfo = async (id) => {
     
     const budgets = await Budget.findAll({
         include:{
             model: Type,
+        },
+        where:{
+            userId: id
         }
     });
 
@@ -44,15 +48,16 @@ const modifyBudget = async (id, date, description, amount) => {
     return budgetModify;
 };
 
-const getByStatus = async (st) => {
-    const budgets = await Type.findAll({
+const getByStatus = async (st,id) => {
+    const budgets = await Budget.findAll({
         where: {
-            id: st,
-        },
-        include:{
-                model: Budget,
-            }
-    });
+            [Op.and]: [
+                { typeId: st },
+                { userId: id }
+            ]
+        }
+    })
+    
     return budgets;
 };
 

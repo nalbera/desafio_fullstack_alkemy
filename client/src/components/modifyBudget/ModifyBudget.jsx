@@ -29,7 +29,7 @@ export const ModifyBudget = () => {
         });
     };
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
         if(!state.date || !state.description || !state.amount){
             return  swal.fire({
@@ -38,8 +38,8 @@ export const ModifyBudget = () => {
                 position: 'top-start'
               });
         };
-        modifyBudget(state.id,state.date,state.description,state.amount);
-        history('/');
+        await modifyBudget(state.id,state.date,state.description,state.amount);
+        history('/home');
     }
     return ( 
         <>

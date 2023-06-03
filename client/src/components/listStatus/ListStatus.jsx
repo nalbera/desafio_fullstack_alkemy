@@ -19,14 +19,24 @@ export const ListStatus = () => {
 
     const history = useNavigate();
     const [state, setState] = useState([]);
+    const url = `http://localhost:3001/list-status?status=${idStatus}`;
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
-        const url = `http://localhost:3001/list-status?status=${idStatus}`;
-        fetch(url).then(response => response.json()).then(json => setState(json));
+        
+        fetch(url,{
+            method: 'GET',
+            headers:{
+                authorization: token
+            }
+        })
+        .then(response => response.json())
+        .then(json => setState(json));
         const menu = document.querySelector('.burguer-container');
         menu.style.display = 'none';
-    },[idStatus]);
-    const handleDelete = (id) => {
+    },[idStatus,token,url]);
+    
+    const handleDelete =  (id) => {
         swal.fire({
             width: "30%",
             title: "Are you sure?",
@@ -38,16 +48,16 @@ export const ListStatus = () => {
             dangerMode: true,
             position: 'top-start'
           })
-          .then((result) => {
+          .then(async (result) => {
             if (result.isConfirmed) {
-              deleteBudget(id); 
+              await deleteBudget(id); 
               swal.fire({
                 title: "The record has been deleted!",
                 icon: "success",
                 width: "30%",
                 position: 'top-start'
               });
-              history('/');
+              history('/home');
             } else {
               swal.fire({
                 title: "Removal canceled",

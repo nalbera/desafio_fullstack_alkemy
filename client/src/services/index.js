@@ -2,6 +2,7 @@
 export const postNewBudget = async ({date, description, amount, type}) => {
     
     const url = 'http://localhost:3001/budget';
+    const token = sessionStorage.getItem('token');
 
     const data = {
         date: date,
@@ -13,11 +14,12 @@ export const postNewBudget = async ({date, description, amount, type}) => {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json',
+            authorization: token
         },
         body: JSON.stringify(data)
     });
     const json = await response.json();
-    console.log(json, 'json');
+    //console.log(json, 'json');
     return json;
 };
 
@@ -25,6 +27,7 @@ export const modifyBudget = async (id, date, description, amount) => {
     
     
     const url = `http://localhost:3001/budget/${id}`;
+    const token = sessionStorage.getItem('token');
 
     const data = {
         id: id,
@@ -34,9 +37,10 @@ export const modifyBudget = async (id, date, description, amount) => {
     };
 
     const response = await fetch(url, {
-        method: 'PUT',
+        method: 'PATCH',
         headers:{
             'Content-Type': 'application/json',
+            authorization: token
         },
         body: JSON.stringify(data)
     });
@@ -50,9 +54,13 @@ export const deleteBudget = async (id) => {
     
     try {
         const url = `http://localhost:3001/budget/${id}`;
+        const token = sessionStorage.getItem('token');
 
         const response = await fetch(url, {
-          method: "delete"
+          method: "DELETE",
+          headers:{
+              authorization: token
+          }
         });
       
         if (!response.ok) {
@@ -66,4 +74,33 @@ export const deleteBudget = async (id) => {
       } catch (error) {
         console.log('Error: ' + error);
       }
+}
+
+export const login = async (userName,password) => {
+
+    try {
+        
+        const url = 'http://localhost:3001/user/login';
+        
+        const data = {
+            userName,
+            password
+        };
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+
+        const json = await response.json();
+        
+        return json;
+
+    } catch (error) {
+        console.log(error);
+    }
+    
 }

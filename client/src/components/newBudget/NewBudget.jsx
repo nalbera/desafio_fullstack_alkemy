@@ -44,7 +44,7 @@ export const NewBudget = () => {
              const elem = document.querySelector('.msgError')
              elem.innerHTML = `<p>${rta.errors[0].msg}</p>`
         }else{
-            history('/');
+            history('/home');
         }
     }
 

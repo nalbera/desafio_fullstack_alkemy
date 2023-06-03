@@ -4,12 +4,19 @@ import './lastten.css';
 export const LastTen = () => {
 
     const [state, setState] = useState([]);
+    const url = 'http://localhost:3001/last-ten';
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
-        fetch('http://localhost:3001/last-ten')
+        fetch(url,{
+            method: 'GET',
+            headers:{
+                authorization: token
+            }
+        })
             .then(response => response.json())
             .then(data => setState(data.data));
-    },[setState, state.data]);
+    },[setState, state.data,token]);
     
     return ( 
         <>

@@ -13,7 +13,8 @@ const {
     userRegister,
     loginUser,
     modifyUser,
-    infoUser
+    infoUser,
+    getMe
 } = require('../controllers');
 
 const router = Router();
@@ -33,6 +34,7 @@ router.delete('/budget/:id',deleteBudget);
 router.get('/all',allRegister);
 
 router.patch('/user/modify/:id', modifyUser)
+router.get('/user', getMe);
 router.get('/user/:id', infoUser);
 
 router.get('/', (req,res) => {

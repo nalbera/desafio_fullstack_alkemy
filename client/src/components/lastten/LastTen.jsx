@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './lastten.css';
+import { AuthContext } from '../../context/AuthContext';
 
 export const LastTen = () => {
 
     const [state, setState] = useState([]);
     const url = 'http://localhost:3001/last-ten';
-    const token = sessionStorage.getItem('token');
-
+    
+    const { token } = useContext(AuthContext);
+    
     useEffect(() => {
         fetch(url,{
             method: 'GET',

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { modifyBudget } from '../../services';
 import { NavBar } from '../navBar/NavBar';
 import swal from 'sweetalert2';
+import { AuthContext } from '../../context/AuthContext';
 
 export const ModifyBudget = () => {
     const history = useNavigate();
@@ -21,6 +22,8 @@ export const ModifyBudget = () => {
         amount: amount,
     });
 
+    const {token} = useContext(AuthContext);
+    
     const handleChange = (evt) => {
         evt.preventDefault();
         setState({
@@ -38,7 +41,7 @@ export const ModifyBudget = () => {
                 position: 'top-start'
               });
         };
-        await modifyBudget(state.id,state.date,state.description,state.amount);
+        await modifyBudget(state.id,state.date,state.description,state.amount,token);
         history('/home');
     }
     return ( 

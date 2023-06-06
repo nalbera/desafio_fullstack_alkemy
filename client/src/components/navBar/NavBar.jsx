@@ -35,6 +35,9 @@ export const NavBar = () => {
                     </Link>
                 </ul>
             </nav>
+            {/* <div className='user'>
+                <img src={} alt="" />
+            </div> */}
             <div className="menu-hamburguesa">
                 <img src={imghamb} alt="burguer menu" onClick={handelMenuHamburClick}/>
             </div>

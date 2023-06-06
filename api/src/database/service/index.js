@@ -102,7 +102,7 @@ const login = async (userName,password) => {
     }
 
     const token = jwt.sign(jwtInfo, process.env.SECRET, {expiresIn: '1d'});
-
+    console.log(token);
     return token;
 }
 

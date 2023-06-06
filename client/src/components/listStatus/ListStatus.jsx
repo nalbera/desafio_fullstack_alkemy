@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deleteBudget } from '../../services';
@@ -20,8 +21,9 @@ export const ListStatus = () => {
     const history = useNavigate();
     const [state, setState] = useState([]);
     const url = `http://localhost:3001/list-status?status=${idStatus}`;
-    const token = sessionStorage.getItem('token');
-
+    
+    const  { token } = useContext(AuthContext);
+   
     useEffect(() => {
         
         fetch(url,{
@@ -50,7 +52,7 @@ export const ListStatus = () => {
           })
           .then(async (result) => {
             if (result.isConfirmed) {
-              await deleteBudget(id); 
+              await deleteBudget(id, token); 
               swal.fire({
                 title: "The record has been deleted!",
                 icon: "success",

@@ -212,6 +212,19 @@ const infoUser = async (req,res) => {
     }
 }
 
+const getMe = async (req,res) => {
+    const {id} = req.userInfo;
+    try {
+        const user = await getInfoUser(id);
+        res.status(200).json({
+            status: 'OK',
+            data: user
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     newBudget,
     currentBalance,
@@ -223,5 +236,6 @@ module.exports = {
     userRegister,
     loginUser,
     modifyUser,
-    infoUser
+    infoUser,
+    getMe
 }

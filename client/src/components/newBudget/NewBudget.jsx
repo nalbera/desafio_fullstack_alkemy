@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postNewBudget } from '../../services';
 import { NavBar } from '../navBar/NavBar';
+import { AuthContext } from '../../context/AuthContext';
+
 import swal from 'sweetalert2';
 
 export const NewBudget = () => {
     
     const history = useNavigate();
+    const {token} = useContext(AuthContext);
 
     const [input, setInput] = useState({
         date: '',
         description:'',
         amount: '',
-        type: ''
+        type: '',
+        token
     });
 
     const handleChange = (evt) => {

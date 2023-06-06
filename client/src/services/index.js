@@ -1,8 +1,7 @@
 
-export const postNewBudget = async ({date, description, amount, type}) => {
+export const postNewBudget = async ({date, description, amount, type, token}) => {
     
     const url = 'http://localhost:3001/budget';
-    const token = sessionStorage.getItem('token');
 
     const data = {
         date: date,
@@ -19,15 +18,14 @@ export const postNewBudget = async ({date, description, amount, type}) => {
         body: JSON.stringify(data)
     });
     const json = await response.json();
-    //console.log(json, 'json');
+
     return json;
 };
 
-export const modifyBudget = async (id, date, description, amount) => {
+export const modifyBudget = async (id, date, description, amount, token) => {
     
     
     const url = `http://localhost:3001/budget/${id}`;
-    const token = sessionStorage.getItem('token');
 
     const data = {
         id: id,
@@ -50,12 +48,11 @@ export const modifyBudget = async (id, date, description, amount) => {
     return json;
 };
 
-export const deleteBudget = async (id) => {
+export const deleteBudget = async (id, token) => {
     
     try {
         const url = `http://localhost:3001/budget/${id}`;
-        const token = sessionStorage.getItem('token');
-
+        
         const response = await fetch(url, {
           method: "DELETE",
           headers:{
@@ -96,11 +93,29 @@ export const login = async (userName,password) => {
         });
 
         const json = await response.json();
-        
+
         return json;
 
     } catch (error) {
         console.log(error);
     }
     
+}
+
+export const getUserInfo = async (token) => {
+    try {
+        const url = 'http://localhost:3001/user';
+        
+        const response = await fetch(url, {
+            method: "GET",
+            headers:{
+                authorization: token
+            }
+          });
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
 }

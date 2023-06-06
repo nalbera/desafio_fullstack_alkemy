@@ -7,7 +7,7 @@ export const Home = () => {
         const menu = document.querySelector('.burguer-container');
         menu.style.display = 'none';
     }, []);
-
+    
     return(
         <>
             <NavBar />

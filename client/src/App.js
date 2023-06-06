@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import { useEffect, useState } from 'react';
 import { Home } from './components/home/Home';
 import { NewBudget } from './components/newBudget/NewBudget';
 import { ListStatus } from './components/listStatus/ListStatus';
@@ -6,6 +7,7 @@ import { ModifyBudget } from './components/modifyBudget/ModifyBudget';
 import { Login } from './components/login/Login';
 
 function App() {
+   
   return (
     <BrowserRouter>
         <Routes>

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services';
 import swal from 'sweetalert2';
+import { AuthContext } from '../../context/AuthContext';
 
 export const Login = () => {
 
     const navigate = useNavigate();
+    const { setToken } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,10 +16,12 @@ export const Login = () => {
         const password = e.target.password.value;
         
         const response = await login(userName,password);
-
+        
         if(response.status === 'OK'){
             const token = response.data.token;
-            sessionStorage.setItem('token',token);
+            
+            setToken(token);
+            
             swal.fire({
                 title: response.message,
                 width: "30%",

@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../../images/budget.png';
+import genericUser from '../../images/users/generic_user.png';
 import imghamb from '../../images/hamb-menu.svg';
 import { Link } from 'react-router-dom';
 import MenuBurguer from '../menuBurguer/MenuBurguer';
@@ -21,7 +22,7 @@ export const NavBar = () => {
             </div>
             <nav>
                 <ul className='nav-link'>
-                    <Link to='/home' className='link'>
+                    <Link to='/' className='link'>
                         <li>Home</li>
                     </Link>
                     <Link to='/new-budget' className='link'>
@@ -33,11 +34,14 @@ export const NavBar = () => {
                     <Link to={`/list-status/${2}`} className='link'>
                         <li>Bills</li>
                     </Link>
+                    <Link to={'/register'} className='link'>
+                        <li>Register</li>
+                    </Link>
                 </ul>
             </nav>
-            {/* <div className='user'>
-                <img src={} alt="" />
-            </div> */}
+            <div className='user'>
+                <img src={genericUser} alt="" />
+            </div>
             <div className="menu-hamburguesa">
                 <img src={imghamb} alt="burguer menu" onClick={handelMenuHamburClick}/>
             </div>

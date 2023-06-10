@@ -6,6 +6,7 @@ import { deleteBudget } from '../../services';
 import { NavBar } from '../navBar/NavBar';
 import swal from 'sweetalert2';
 import './liststatus.css';
+import { Login } from '../login/Login';
 
 export const ListStatus = () => {
     
@@ -59,7 +60,7 @@ export const ListStatus = () => {
                 width: "30%",
                 position: 'top-start'
               });
-              history('/home');
+              history('/');
             } else {
               swal.fire({
                 title: "Removal canceled",
@@ -73,65 +74,73 @@ export const ListStatus = () => {
     return ( 
         <>
             <NavBar />
-            <h3 className='title-status'>List by {status}</h3>
-            <div id='table-container'>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Modify</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            {
-                                state && state?.map(elem => {
-                                    return(
-                                        <tr key={elem.id}>
-                                            <td>{elem.date}</td>
-                                            <td>{elem.description}</td>
-                                            <td>{elem.amount}</td>
-                                            <Link to={`/modify-budget?id=${elem.id}&date=${elem.date}&description=${elem.description}&amount=${elem.amount}`}>
-                                                <td><button><FaEdit /></button></td>
-                                            </Link>
-                                            <td><button onClick={() => handleDelete(elem.id)}><FaTrashAlt /></button></td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                    </tbody>
-                </table>
-            </div>
-            <div className='table-container-mobile'>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Modify</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody className='tableBody'>
-                            {
-                                state && state?.map(elem => {
-                                    return(
-                                        <tr key={elem.id}>
-                                            <td>{elem.description}</td>
-                                            <td>{elem.amount}</td>
-                                            <Link to={`/modify-budget?id=${elem.id}&date=${elem.date}&description=${elem.description}&amount=${elem.amount}`}>
-                                                <td><button><FaEdit /></button></td>
-                                            </Link>
-                                            <td><button onClick={() => handleDelete(elem.id)}><FaTrashAlt /></button></td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                    </tbody>
-                </table>
-            </div>
+            {
+                !token ? (
+                    <Login />
+                ) : (
+                <>
+                    <h3 className='title-status'>List by {status}</h3>
+                    <div id='table-container'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Modify</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {
+                                        state && state?.map(elem => {
+                                            return(
+                                                <tr key={elem.id}>
+                                                    <td>{elem.date}</td>
+                                                    <td>{elem.description}</td>
+                                                    <td>{elem.amount}</td>
+                                                    <Link to={`/modify-budget?id=${elem.id}&date=${elem.date}&description=${elem.description}&amount=${elem.amount}`}>
+                                                        <td><button><FaEdit /></button></td>
+                                                    </Link>
+                                                    <td><button onClick={() => handleDelete(elem.id)}><FaTrashAlt /></button></td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='table-container-mobile'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Modify</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody className='tableBody'>
+                                    {
+                                        state && state?.map(elem => {
+                                            return(
+                                                <tr key={elem.id}>
+                                                    <td>{elem.description}</td>
+                                                    <td>{elem.amount}</td>
+                                                    <Link to={`/modify-budget?id=${elem.id}&date=${elem.date}&description=${elem.description}&amount=${elem.amount}`}>
+                                                        <td><button><FaEdit /></button></td>
+                                                    </Link>
+                                                    <td><button onClick={() => handleDelete(elem.id)}><FaTrashAlt /></button></td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                 </>
+                )
+            }
         </>
      );
 }

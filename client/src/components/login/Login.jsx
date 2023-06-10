@@ -29,24 +29,25 @@ export const Login = () => {
                 icon: 'success',
             });
 
-            navigate('/home');
+            navigate('/');
         }
 
     }
     return (
-        <form onSubmit={handleSubmit}>
-                <p>Login</p>
-                <p htmlFor="">User*:</p>
-                <input type="text" name="userName" id="field" />
-                <div className='msgError'></div>
-                <p htmlFor="">Password*:</p>
-                <input type="password" name="password" id="field" />
-                <p>(*)The data is required</p>
-                <p>Or Register</p>
-                <p>
-                    <button className='btn btn-color' type='submit'>Submit</button>
-                </p>
-        </form>
+        <>
+            <form onSubmit={handleSubmit}>
+                    <p>Login</p>
+                    <p htmlFor="">User*:</p>
+                    <input type="text" name="userName" id="field" />
+                    <div className='msgError'></div>
+                    <p htmlFor="">Password*:</p>
+                    <input type="password" name="password" id="field" />
+                    <p>(*)The data is required</p>
+                    <p>
+                        <button className='btn btn-color' type='submit'>Login</button>
+                    </p>
+            </form>
+        </>
     );
 }
 
